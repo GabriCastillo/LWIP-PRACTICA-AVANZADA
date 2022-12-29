@@ -305,7 +305,8 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
   {
     ptr = es->p;
 
-    char text[ptr->len] = ptr->payload;
+    char text[ptr->len] = "";
+    text = ptr->payload;
     printf(text);
     printf(ptr->len);
     bool i = false;
