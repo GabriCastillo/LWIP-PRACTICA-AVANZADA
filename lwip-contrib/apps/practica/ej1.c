@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,17 +11,17 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of and a contribution to the lwIP TCP/IP stack.
@@ -39,7 +39,6 @@
  * and passively closes when client is done.
  *
  */
-
 
 #include "lwip/opt.h"
 #include "lwip/debug.h"
@@ -76,10 +75,9 @@ err_t echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
 void echo_send(struct tcp_pcb *tpcb, struct echo_state *es);
 void echo_close(struct tcp_pcb *tpcb, struct echo_state *es);
 
-void
-echo_init(void)
+void echo_init(void)
 {
-  //printf("echo_init \n");
+  // printf("echo_init \n");
   echo_pcb = tcp_new();
   if (echo_pcb != NULL)
   {
@@ -91,7 +89,7 @@ echo_init(void)
       echo_pcb = tcp_listen(echo_pcb);
       tcp_accept(echo_pcb, echo_accept);
     }
-    else 
+    else
     {
       /* abort? output diagnostic? */
     }
@@ -102,11 +100,9 @@ echo_init(void)
   }
 }
 
-
-err_t
-echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
+err_t echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 {
- // printf("echo_accept \n");
+  // printf("echo_accept \n");
   err_t ret_err;
   struct echo_state *es;
 
@@ -136,11 +132,10 @@ echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
   {
     ret_err = ERR_MEM;
   }
-  return ret_err;  
+  return ret_err;
 }
 
-err_t
-echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
+err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
   printf(arg);
   printf("\n");
@@ -151,7 +146,7 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
   struct echo_state *es;
   err_t ret_err;
 
-  LWIP_ASSERT("arg != NULL",arg != NULL);
+  LWIP_ASSERT("arg != NULL", arg != NULL);
   es = (struct echo_state *)arg;
   printf(es);
   printf("\n");
@@ -159,21 +154,20 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
   {
     /* remote host closed connection */
     es->state = ES_CLOSING;
-    if(es->p == NULL)
+    if (es->p == NULL)
     {
-       /* we're done sending, close it */
-       echo_close(tpcb, es);
+      /* we're done sending, close it */
+      echo_close(tpcb, es);
     }
     else
     {
       /* we're not done yet */
       tcp_sent(tpcb, echo_sent);
       echo_send(tpcb, es);
-      
     }
     ret_err = ERR_OK;
   }
-  else if(err != ERR_OK)
+  else if (err != ERR_OK)
   {
     /* cleanup, for unkown reason */
     if (p != NULL)
@@ -183,7 +177,7 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     }
     ret_err = err;
   }
-  else if(es->state == ES_ACCEPTED)
+  else if (es->state == ES_ACCEPTED)
   {
     /* first data chunk in p->payload */
     es->state = ES_RECEIVED;
@@ -197,7 +191,7 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
   else if (es->state == ES_RECEIVED)
   {
     /* read some more data */
-    if(es->p == NULL)
+    if (es->p == NULL)
     {
       es->p = p;
       tcp_sent(tpcb, echo_sent);
@@ -209,11 +203,11 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 
       /* chain pbufs to the end of what we recv'ed previously  */
       ptr = es->p;
-      pbuf_chain(ptr,p);
+      pbuf_chain(ptr, p);
     }
     ret_err = ERR_OK;
   }
-  else if(es->state == ES_CLOSING)
+  else if (es->state == ES_CLOSING)
   {
     /* odd case, remote side closing twice, trash data */
     tcp_recved(tpcb, p->tot_len);
@@ -232,10 +226,9 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
   return ret_err;
 }
 
-void
-echo_error(void *arg, err_t err)
+void echo_error(void *arg, err_t err)
 {
- // printf("echo_error \n");
+  // printf("echo_error \n");
   struct echo_state *es;
 
   LWIP_UNUSED_ARG(err);
@@ -247,10 +240,9 @@ echo_error(void *arg, err_t err)
   }
 }
 
-err_t
-echo_poll(void *arg, struct tcp_pcb *tpcb)
+err_t echo_poll(void *arg, struct tcp_pcb *tpcb)
 {
- // printf("echo_poll \n");
+  // printf("echo_poll \n");
   err_t ret_err;
   struct echo_state *es;
 
@@ -266,7 +258,7 @@ echo_poll(void *arg, struct tcp_pcb *tpcb)
     else
     {
       /* no remaining pbuf (chain)  */
-      if(es->state == ES_CLOSING)
+      if (es->state == ES_CLOSING)
       {
         echo_close(tpcb, es);
       }
@@ -282,8 +274,7 @@ echo_poll(void *arg, struct tcp_pcb *tpcb)
   return ret_err;
 }
 
-err_t
-echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
+err_t echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 {
   printf("echo_sent \n");
   struct echo_state *es;
@@ -292,8 +283,8 @@ echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 
   es = (struct echo_state *)arg;
   es->retries = 0;
-  
-  if(es->p != NULL)
+
+  if (es->p != NULL)
   {
     /* still got pbufs to send */
     tcp_sent(tpcb, echo_sent);
@@ -302,7 +293,7 @@ echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
   else
   {
     /* no more pbufs to send */
-    if(es->state == ES_CLOSING)
+    if (es->state == ES_CLOSING)
     {
       echo_close(tpcb, es);
     }
@@ -310,71 +301,73 @@ echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
   return ERR_OK;
 }
 
-void
-echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
+void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 {
   printf("echo_send \n");
   struct pbuf *ptr;
   err_t wr_err = ERR_OK;
- 
+
   while ((wr_err == ERR_OK) &&
-         (es->p != NULL) && 
+         (es->p != NULL) &&
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
-  ptr = es->p;
+    ptr = es->p;
 
-  /* enqueue data for transmission */
-  wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
-  if (wr_err == ERR_OK)
-  {
-     u16_t plen;
+    /* enqueue data for transmission */
+    wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
+    printf(wr_err);
+    printf("\n");
+    if (wr_err == ERR_OK)
+    {
+      u16_t plen;
       u8_t freed;
 
-     plen = ptr->len;
-     /* continue with next pbuf in chain (if any) */
-     es->p = ptr->next;
-     if(es->p != NULL)
-     {
-       /* new reference! */
-       pbuf_ref(es->p);
-     }
-     /* chop first pbuf from chain */
+      plen = ptr->len;
+      /* continue with next pbuf in chain (if any) */
+      printf(plen);
+      printf("\n");
+      es->p = ptr->next;
+      if (es->p != NULL)
+      {
+        /* new reference! */
+        pbuf_ref(es->p);
+      }
+      /* chop first pbuf from chain */
       do
       {
         /* try hard to free pbuf */
         freed = pbuf_free(ptr);
-        
-      }
-      while(freed == 0);
-     /* we can read more data now */
-     tcp_recved(tpcb, plen);
-   }
-   else if(wr_err == ERR_MEM)
-   {
+        printf(freed);
+        printf("\n");
+      } while (freed == 0);
+      /* we can read more data now */
+      tcp_recved(tpcb, plen);
+    }
+    else if (wr_err == ERR_MEM)
+    {
       /* we are low on memory, try later / harder, defer to poll */
-     es->p = ptr;
-   }
-   else
-   {
-     /* other problem ?? */
-   }
+      es->p = ptr;
+    }
+    else
+    {
+      /* other problem ?? */
+    }
   }
 }
 
-void
-echo_close(struct tcp_pcb *tpcb, struct echo_state *es)
+void echo_close(struct tcp_pcb *tpcb, struct echo_state *es)
 {
- // printf("echo_close \n");
+  // printf("echo_close \n");
   tcp_arg(tpcb, NULL);
   tcp_sent(tpcb, NULL);
   tcp_recv(tpcb, NULL);
   tcp_err(tpcb, NULL);
   tcp_poll(tpcb, NULL, 0);
-  
+
   if (es != NULL)
   {
     mem_free(es);
-  }  
+  }
   tcp_close(tpcb);
 }
 
