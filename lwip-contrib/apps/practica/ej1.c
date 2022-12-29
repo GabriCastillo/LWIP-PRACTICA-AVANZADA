@@ -309,7 +309,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
     ptr = es->p;
-
+    printf(ptr->payload);
     /* enqueue data for transmission */
     wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
     if (wr_err == ERR_OK)
