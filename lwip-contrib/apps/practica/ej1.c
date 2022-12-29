@@ -159,6 +159,7 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
       /* we're not done yet */
       tcp_sent(tpcb, echo_sent);
       echo_send(tpcb, es);
+      
     }
     ret_err = ERR_OK;
   }
@@ -328,6 +329,7 @@ echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       {
         /* try hard to free pbuf */
         freed = pbuf_free(ptr);
+        printf(freed + "\n");
       }
       while(freed == 0);
      /* we can read more data now */
