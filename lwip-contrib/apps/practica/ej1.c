@@ -322,8 +322,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
       plen = ptr->len;
       /* continue with next pbuf in chain (if any) */
-      printf(plen);
-      printf("\n");
+
       es->p = ptr->next;
       if (es->p != NULL)
       {
