@@ -79,6 +79,7 @@ void echo_close(struct tcp_pcb *tpcb, struct echo_state *es);
 void
 echo_init(void)
 {
+  printf("echo_init \n");
   echo_pcb = tcp_new();
   if (echo_pcb != NULL)
   {
@@ -105,6 +106,7 @@ echo_init(void)
 err_t
 echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 {
+  printf("echo_accept \n");
   err_t ret_err;
   struct echo_state *es;
 
@@ -140,6 +142,7 @@ echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 err_t
 echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
+  printf("echo_recv \n");
   struct echo_state *es;
   err_t ret_err;
 
@@ -225,6 +228,7 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 void
 echo_error(void *arg, err_t err)
 {
+  printf("echo_error \n");
   struct echo_state *es;
 
   LWIP_UNUSED_ARG(err);
@@ -239,6 +243,7 @@ echo_error(void *arg, err_t err)
 err_t
 echo_poll(void *arg, struct tcp_pcb *tpcb)
 {
+  printf("echo_poll \n");
   err_t ret_err;
   struct echo_state *es;
 
@@ -273,6 +278,7 @@ echo_poll(void *arg, struct tcp_pcb *tpcb)
 err_t
 echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 {
+  printf("echo_sent \n");
   struct echo_state *es;
 
   LWIP_UNUSED_ARG(len);
@@ -300,6 +306,7 @@ echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 void
 echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 {
+  printf("echo_send \n");
   struct pbuf *ptr;
   err_t wr_err = ERR_OK;
  
@@ -329,7 +336,7 @@ echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       {
         /* try hard to free pbuf */
         freed = pbuf_free(ptr);
-        printf(freed + "\n");
+        
       }
       while(freed == 0);
      /* we can read more data now */
@@ -350,6 +357,7 @@ echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 void
 echo_close(struct tcp_pcb *tpcb, struct echo_state *es)
 {
+  printf("echo_close \n");
   tcp_arg(tpcb, NULL);
   tcp_sent(tpcb, NULL);
   tcp_recv(tpcb, NULL);
