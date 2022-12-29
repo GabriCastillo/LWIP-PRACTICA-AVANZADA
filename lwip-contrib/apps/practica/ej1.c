@@ -334,8 +334,6 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       {
         /* try hard to free pbuf */
         freed = pbuf_free(ptr);
-        printf(freed);
-        printf("\n");
       } while (freed == 0);
       /* we can read more data now */
       tcp_recved(tpcb, plen);
