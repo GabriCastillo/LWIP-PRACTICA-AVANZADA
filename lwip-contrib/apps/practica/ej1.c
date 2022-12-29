@@ -315,8 +315,6 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
     /* enqueue data for transmission */
     wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
-    printf(wr_err);
-    printf("\n");
     if (wr_err == ERR_OK)
     {
       u16_t plen;
