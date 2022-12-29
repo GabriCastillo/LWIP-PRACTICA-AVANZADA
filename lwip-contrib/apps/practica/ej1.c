@@ -45,6 +45,8 @@
 #include "lwip/stats.h"
 #include "lwip/tcp.h"
 #include "ej1.h"
+#include<stdbool.h>// Booleanos
+
 
 #if LWIP_TCP
 
@@ -137,7 +139,6 @@ err_t echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 
 err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
-  printf("echo_recv \n");
   struct echo_state *es;
   err_t ret_err;
 
@@ -149,7 +150,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     es->state = ES_CLOSING;
     if (es->p == NULL)
     {
-  
+
       /* we're done sending, close it */
       echo_close(tpcb, es);
     }
@@ -167,7 +168,6 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     if (p != NULL)
     {
       es->p = NULL;
-   
     }
     ret_err = err;
   }
@@ -189,7 +189,6 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     if (es->p == NULL)
     {
       es->p = p;
- 
     }
     else
     {
@@ -246,8 +245,6 @@ err_t echo_poll(void *arg, struct tcp_pcb *tpcb)
     if (es->p != NULL)
     {
       /* there is a remaining pbuf (chain)  */
-      printf(es->p);
-      printf("\n");
 
       tcp_sent(tpcb, echo_sent);
       echo_send(tpcb, es);
@@ -273,7 +270,6 @@ err_t echo_poll(void *arg, struct tcp_pcb *tpcb)
 
 err_t echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 {
-  printf("echo_sent \n");
   struct echo_state *es;
 
   LWIP_UNUSED_ARG(len);
@@ -300,7 +296,6 @@ err_t echo_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 
 void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 {
-  printf("echo_send \n");
   struct pbuf *ptr;
   err_t wr_err = ERR_OK;
 
@@ -309,7 +304,17 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
     ptr = es->p;
-    printf(ptr->payload);
+
+    char text[ptr->len] = ptr->payload;
+    printf(text);
+    printf(ptr->len);
+    bool i = false;
+    bool ii = false;
+
+
+
+
+
     /* enqueue data for transmission */
     wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
     if (wr_err == ERR_OK)
