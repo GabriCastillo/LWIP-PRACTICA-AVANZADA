@@ -144,11 +144,17 @@ echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
   printf(arg);
   printf("\n");
+  printf(p);
+  printf("\n");
+  printf(tpcb);
+  printf("\n");
   struct echo_state *es;
   err_t ret_err;
 
   LWIP_ASSERT("arg != NULL",arg != NULL);
   es = (struct echo_state *)arg;
+  printf(es);
+  printf("\n");
   if (p == NULL)
   {
     /* remote host closed connection */
