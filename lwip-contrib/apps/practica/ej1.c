@@ -137,19 +137,22 @@ err_t echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 
 err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
+  printf("echo_recv \n");
   struct echo_state *es;
   err_t ret_err;
 
   LWIP_ASSERT("arg != NULL", arg != NULL);
   es = (struct echo_state *)arg;
-  printf(es);
-  printf("\n");
   if (p == NULL)
   {
     /* remote host closed connection */
     es->state = ES_CLOSING;
     if (es->p == NULL)
     {
+      print(1);
+      print("\n");
+      print(es->p);
+      print("\n");
       /* we're done sending, close it */
       echo_close(tpcb, es);
     }
@@ -167,6 +170,10 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     if (p != NULL)
     {
       es->p = NULL;
+      print(2);
+      print("\n");
+      print(es->p);
+      print("\n");
       pbuf_free(p);
     }
     ret_err = err;
@@ -177,6 +184,10 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     es->state = ES_RECEIVED;
     /* store reference to incoming pbuf (chain) */
     es->p = p;
+    print(3);
+    print("\n");
+    print(es->p);
+    print("\n");
     /* install send completion notifier */
     tcp_sent(tpcb, echo_sent);
     echo_send(tpcb, es);
@@ -188,6 +199,10 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     if (es->p == NULL)
     {
       es->p = p;
+      print(4);
+      print("\n");
+      print(es->p);
+      print("\n");
       tcp_sent(tpcb, echo_sent);
       echo_send(tpcb, es);
     }
@@ -206,6 +221,10 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     /* odd case, remote side closing twice, trash data */
     tcp_recved(tpcb, p->tot_len);
     es->p = NULL;
+    print(5);
+    print("\n");
+    print(es->p);
+    print("\n");
     pbuf_free(p);
     ret_err = ERR_OK;
   }
@@ -214,6 +233,10 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     /* unkown es->state, trash data  */
     tcp_recved(tpcb, p->tot_len);
     es->p = NULL;
+    print(6);
+    print("\n");
+    print(es->p);
+    print("\n");
     pbuf_free(p);
     ret_err = ERR_OK;
   }
