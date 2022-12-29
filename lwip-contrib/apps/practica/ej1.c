@@ -151,7 +151,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     {
       printf(1);
       printf("\n");
-      printf(es->p);
+     // printf(es->p);
       printf("\n");
       /* we're done sending, close it */
       echo_close(tpcb, es);
@@ -172,7 +172,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
       es->p = NULL;
       printf(2);
       printf("\n");
-      printf(es->p);
+      //printf(es->p);
       printf("\n");
       pbuf_free(p);
     }
@@ -186,7 +186,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     es->p = p;
     printf(3);
     printf("\n");
-    printf(es->p);
+   // printf(es->p);
     printf("\n");
     /* install send completion notifier */
     tcp_sent(tpcb, echo_sent);
@@ -201,7 +201,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
       es->p = p;
       printf(4);
       printf("\n");
-      printf(es->p);
+    //  printf(es->p);
       printf("\n");
       tcp_sent(tpcb, echo_sent);
       echo_send(tpcb, es);
@@ -223,7 +223,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     es->p = NULL;
     printf(5);
     printf("\n");
-    printf(es->p);
+  //  printf(es->p);
     printf("\n");
     pbuf_free(p);
     ret_err = ERR_OK;
@@ -235,7 +235,7 @@ err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
     es->p = NULL;
     printf(6);
     printf("\n");
-    printf(es->p);
+  //  printf(es->p);
     printf("\n");
     pbuf_free(p);
     ret_err = ERR_OK;
