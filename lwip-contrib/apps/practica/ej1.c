@@ -137,12 +137,6 @@ err_t echo_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 
 err_t echo_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
-  printf(arg);
-  printf("\n");
-  printf(p);
-  printf("\n");
-  printf(tpcb);
-  printf("\n");
   struct echo_state *es;
   err_t ret_err;
 
@@ -252,6 +246,9 @@ err_t echo_poll(void *arg, struct tcp_pcb *tpcb)
     if (es->p != NULL)
     {
       /* there is a remaining pbuf (chain)  */
+      printf(es->p);
+      printf("\n");
+
       tcp_sent(tpcb, echo_sent);
       echo_send(tpcb, es);
     }
