@@ -305,9 +305,11 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
     bool i = false;
     bool ii = false;
+    int k = 0;
 
-    for(int k =0 ; pChar[k] != '\0';k++){
+    while(pChar[k] != '\0'){
       printf("%c", pChar[k]);
+      k++;
     }
     printf("\n");
 
