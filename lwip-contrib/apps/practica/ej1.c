@@ -309,6 +309,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
     while(pChar[k] != '\0'){
       printf("%c", pChar[k]);
+      printf("\n");
       k++;
     }
     printf("\n");
