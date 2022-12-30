@@ -306,11 +306,13 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     bool i = false;
     bool ii = false;
 
-    if (pChar[0] == 'H')
-    {
-      printf("Paso");
-      i = true;
-    }
+    printf(pChar[0]);
+
+    // if (pChar[0] == 'H')
+    // {
+    //   printf("Paso");
+    //   i = true;
+    // }
 
     if (i)
     {
