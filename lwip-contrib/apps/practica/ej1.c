@@ -308,13 +308,13 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
     if (pChar >= 'A' && pChar <= 'Z')
     {
-      printf("Paso")
+      printf("Paso");
       i = true;
     }
 
     if (i)
     {
-      printf("Error")
+      printf("Error");
       wr_err = ERR_ARG;
     }
     else
