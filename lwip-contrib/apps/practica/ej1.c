@@ -309,10 +309,8 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
     while (pChar[k] != '\0')
     {
-      printf("%c", pChar[k]);
-      printf("\n");
 
-      if ("%c", pChar[k] == 'H')
+      if ("%c", pChar[k] = > 'A' && "%c", pChar[k] <= 'Z')
       {
         printf("Paso");
         i = true;
@@ -320,7 +318,6 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
       k++;
     }
-    printf("\n");
 
     // if (pChar[0] == 'H')
     // {
