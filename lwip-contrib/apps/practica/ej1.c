@@ -306,7 +306,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     bool i = false;
     bool ii = false;
 
-    if (pChar >= 'A' && pChar <= 'Z')
+    if (*pChar >= 'A' && *pChar <= 'Z')
     {
       printf("Paso");
       i = true;
