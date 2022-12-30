@@ -300,10 +300,11 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
     ptr = es->p;
-    printf(ptr->payload);
     char* pChar;
     pChar = (char*) ptr->payload;
     printf(pChar);
+    char text[20] = pChar;
+    printf(text);
     bool i = false;
     bool ii = false;
 
