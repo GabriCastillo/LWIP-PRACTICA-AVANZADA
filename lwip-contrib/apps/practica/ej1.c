@@ -312,10 +312,8 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       printf("%c", pChar[k]);
       if ("%c", pChar[k] == '0' || "%c", pChar[k] == '1')
       {
-       // i = true;
-        ptr->payload="";
+        i = true;
       }
-
       k++;
     }
 
