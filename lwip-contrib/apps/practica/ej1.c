@@ -328,6 +328,8 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     else
     {
       int k = 0;
+      //Comprobamos si la cadena contiene la letra 'P', en dicho caso
+      //el mensaje sera reemplazado por "pepe"
       while (pChar[k] != '\0' && !ii)
       {
         if ("%c", pChar[k] == 'p')
