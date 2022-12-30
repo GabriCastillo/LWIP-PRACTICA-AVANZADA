@@ -305,12 +305,12 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
 
     bool i = false;
     bool ii = false;
-    printf(*pChar);
-    // if (*pChar >= 'A' && *pChar <= 'Z')
-    // {
-    //   printf("Paso");
-    //   i = true;
-    // }
+
+    if (pChar == "Hola")
+    {
+      printf("Paso");
+      i = true;
+    }
 
     if (i)
     {
