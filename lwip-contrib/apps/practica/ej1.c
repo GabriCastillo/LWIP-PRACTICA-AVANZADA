@@ -332,7 +332,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       {
         if ("%c", pChar[k] == 'p')
         {
-          pChar[k] == 'd';
+          ptr->payload = (void*)"pepe";
           ii = true;
         }
         k++;
