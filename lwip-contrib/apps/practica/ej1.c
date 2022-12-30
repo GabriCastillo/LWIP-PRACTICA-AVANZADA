@@ -45,8 +45,7 @@
 #include "lwip/stats.h"
 #include "lwip/tcp.h"
 #include "ej1.h"
-#include<stdbool.h>// Booleanos
-
+#include <stdbool.h> // Booleanos
 
 #if LWIP_TCP
 
@@ -299,21 +298,30 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
          (es->p != NULL) &&
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
+
     ptr = es->p;
-    char* pChar;
-    pChar = (char*) ptr->payload;
-    printf(pChar);
-    pChar++;
-    printf(pChar);
-    //bool i = false;
-   // bool ii = false;
+    char *pChar;
+    pChar = (char *)ptr->payload;
 
+    bool i = false;
+    bool ii = false;
 
+    if (pChar >= 'A' && pChar <= 'Z')
+    {
+      i = true;
+    }
 
-
+    if (i)
+    {
+      wr_err = ERR_ARG;
+    }
+    else
+    {
+      wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
+    }
 
     /* enqueue data for transmission */
-    wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
+
     if (wr_err == ERR_OK)
     {
       u16_t plen;
@@ -342,8 +350,9 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       /* we are low on memory, try later / harder, defer to poll */
       es->p = ptr;
     }
-    else
+    else if (wr_err == ERR_ARG)
     {
+      es->p = ptr;
       /* other problem ?? */
     }
   }
