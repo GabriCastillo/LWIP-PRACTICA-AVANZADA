@@ -307,7 +307,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     bool ii = false;
     int k = 0;
 
-    while (pChar[k] != '\0' && !i)
+    while (pChar[k] != '\O' && !i)
     {
       printf("%c", pChar[k]);
       if ("%c", pChar[k] == '0' || "%c", pChar[k] == '1')
@@ -329,6 +329,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     {
       printf("Error");
       wr_err = ERR_ARG;
+      i=false;
     }
     else
     {
