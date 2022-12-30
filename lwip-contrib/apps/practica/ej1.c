@@ -303,7 +303,8 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     char* pChar;
     pChar = (char*) ptr->payload;
     printf(pChar);
-    char text[20] = pChar;
+    char text[20];
+    text=pChar;
     printf(text);
     bool i = false;
     bool ii = false;
