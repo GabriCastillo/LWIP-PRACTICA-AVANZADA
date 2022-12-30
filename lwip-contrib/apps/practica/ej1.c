@@ -303,13 +303,17 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     char *pChar;
     pChar = (char *)ptr->payload;
 
+    // variable booleana para comprobar la condicion de un patron.
     bool i = false;
+    // variable booleana para comprobar la condicion de otro patron.
     bool ii = false;
+
     int k = 0;
 
+    // Comprobamos si en el mensaje enviado hay un 1 o un 0.
+    // En dado caso, impedimos su envio
     while (pChar[k] != '\0' && !i)
     {
-      printf("%c", pChar[k]);
       if ("%c", pChar[k] == '0' || "%c", pChar[k] == '1')
       {
         i = true;
@@ -317,14 +321,25 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
       k++;
     }
 
-
     if (i)
     {
-      printf("Error");
       wr_err = ERR_OK;
     }
     else
     {
+      int k = 0;
+      while (pChar[k] != '\0' && !ii)
+      {
+        if ("%c", pChar[k] == 'p')
+        {
+          pChar[k] == 'd';
+          ii = true;
+        }
+        k++;
+      }
+
+    
+
       wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
     }
 
