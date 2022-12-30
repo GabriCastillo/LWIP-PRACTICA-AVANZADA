@@ -329,7 +329,6 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     {
       printf("Error");
       wr_err = ERR_ARG;
-      i=false;
     }
     else
     {
