@@ -310,7 +310,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     while (pChar[k] != '\0')
     {
 
-      if ("%c", pChar[k] => 'A' && "%c", pChar[k] <= 'Z')
+      if ("%c", pChar[k] == '0' || "%c", pChar[k] == '1')
       {
         printf("Paso");
         i = true;
