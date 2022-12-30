@@ -306,7 +306,7 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     bool i = false;
     bool ii = false;
 
-    printf(pChar[0]);
+    printf("%c ", pChar[i]);
 
     // if (pChar[0] == 'H')
     // {
