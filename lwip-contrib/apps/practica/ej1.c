@@ -307,23 +307,18 @@ void echo_send(struct tcp_pcb *tpcb, struct echo_state *es)
     bool ii = false;
     int k = 0;
 
-    while (pChar[k] != '\O' && !i)
+    while (pChar[k] != '\0' && !i)
     {
       printf("%c", pChar[k]);
       if ("%c", pChar[k] == '0' || "%c", pChar[k] == '1')
       {
-        printf("Paso");
-        i = true;
+       // i = true;
+        ptr->payload="";
       }
 
       k++;
     }
 
-    // if (pChar[0] == 'H')
-    // {
-    //   printf("Paso");
-    //   i = true;
-    // }
 
     if (i)
     {
